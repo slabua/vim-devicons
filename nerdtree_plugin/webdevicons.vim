@@ -273,7 +273,7 @@ if g:webdevicons_enable == 1 && g:webdevicons_enable_nerdtree == 1
       \ 'override': 1,
       \ 'scope': 'DirNode' })
 
-    " NERDTreeMapCloseChildren
+    " NERDTreeMapCloseDir
     call NERDTreeAddKeyMap({
       \ 'key': g:NERDTreeMapCloseDir,
       \ 'callback': 'WebDevIconsNERDTreeMapCloseDir',
