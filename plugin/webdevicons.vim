@@ -603,7 +603,7 @@ endfunction
 " a:1 (bufferName), a:2 (isDirectory), a:3 (appendArtifactFix)
 " scope: public
 function! WebDevIconsGetFileTypeSymbol(...)
-  let appendArtifactFix = 1
+  let appendArtifactFix = 0
   if a:0 == 0
     let fileNodeExtension = expand('%:e')
     let fileNode = expand('%:t')
