@@ -205,11 +205,11 @@ function! s:setDictionaries()
         \ 'ejs'      : '',
         \ 'css'      : '',
         \ 'less'     : '',
-        \ 'md'       : '',
-        \ 'markdown' : '',
-        \ 'rmd'      : '',
+        \ 'md'       : '',
+        \ 'markdown' : '',
+        \ 'rmd'      : '',
         \ 'json'     : '',
-        \ 'js'       : '',
+        \ 'js'       : '',
         \ 'jsx'      : '',
         \ 'rb'       : '',
         \ 'php'      : '',
@@ -225,12 +225,12 @@ function! s:setDictionaries()
         \ 'yml'      : '',
         \ 'yaml'     : '',
         \ 'bat'      : '',
-        \ 'jpg'      : '',
-        \ 'jpeg'     : '',
-        \ 'bmp'      : '',
-        \ 'png'      : '',
-        \ 'gif'      : '',
-        \ 'ico'      : '',
+        \ 'jpg'      : '',
+        \ 'jpeg'     : '',
+        \ 'bmp'      : '',
+        \ 'png'      : '',
+        \ 'gif'      : '',
+        \ 'ico'      : '',
         \ 'twig'     : '',
         \ 'cpp'      : '',
         \ 'c++'      : '',
@@ -290,7 +290,9 @@ function! s:setDictionaries()
         \ 'ts'       : '',
         \ 'tsx'      : '',
         \ 'jl'       : '',
-        \ 'pp'       : ''
+        \ 'pp'       : '',
+        \ 'xml'      : '',
+        \ 'rest'     : '',
         \}
 
   let s:file_node_exact_matches = {
@@ -299,13 +301,16 @@ function! s:setDictionaries()
         \ 'gruntfile.coffee'                 : '',
         \ 'gruntfile.js'                     : '',
         \ 'gruntfile.ls'                     : '',
-        \ 'gulpfile.coffee'                  : '',
-        \ 'gulpfile.js'                      : '',
-        \ 'gulpfile.ls'                      : '',
+        \ 'gulpfile.coffee'                  : '',
+        \ 'gulpfile.js'                      : '',
+        \ 'gulpfile.ls'                      : '',
         \ 'dropbox'                          : '',
+        \ 'Jenkinsfile'                      : '',
         \ '.ds_store'                        : '',
         \ '.gitconfig'                       : '',
-        \ '.gitignore'                       : '',
+        \ '.bowerrc'                         : '',
+        \ '.editorconfig'                    : '',
+        \ '.gitignore'                       : '',
         \ '.bashrc'                          : '',
         \ '.zshrc'                           : '',
         \ '.vimrc'                           : '',
@@ -315,6 +320,7 @@ function! s:setDictionaries()
         \ 'node_modules'                     : '',
         \ 'react.jsx'                        : '',
         \ 'procfile'                         : '',
+        \ 'package.json'                     : '',
         \}
 
   let s:file_node_pattern_matches = {
@@ -325,6 +331,7 @@ function! s:setDictionaries()
         \ '.*materialize.*\.js$'  : '',
         \ '.*materialize.*\.css$' : '',
         \ '.*mootools.*\.js$'     : '',
+        \ '.*docker.*$'           : '',
         \ 'Vagrantfile$'          : ''
         \}
 
