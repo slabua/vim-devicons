@@ -1,4 +1,4 @@
-" Version: 0.10.0
+" Version: 0.11.0
 " Webpage: https://github.com/ryanoasis/vim-devicons
 " Maintainer: Ryan McIntyre <ryanoasis@gmail.com>
 " License: see LICENSE
@@ -316,6 +316,13 @@ if g:webdevicons_enable == 1 && g:webdevicons_enable_nerdtree == 1
     " <2-LeftMouse>
     call NERDTreeAddKeyMap({
       \ 'key': '<2-LeftMouse>',
+      \ 'callback': 'WebDevIconsNERDTreeMapActivateNode',
+      \ 'override': 1,
+      \ 'scope': 'DirNode' })
+    
+    " <LeftRelease>
+    call NERDTreeAddKeyMap({
+      \ 'key': '<LeftRelease>',
       \ 'callback': 'WebDevIconsNERDTreeMapActivateNode',
       \ 'override': 1,
       \ 'scope': 'DirNode' })
