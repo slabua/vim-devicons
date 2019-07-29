@@ -56,13 +56,13 @@ call s:set('g:webdevicons_enable_flagship_statusline_fileformat_symbols', 1)
 call s:set('g:webdevicons_enable_startify', 1)
 call s:set('g:webdevicons_conceal_nerdtree_brackets', 1)
 call s:set('g:DevIconsAppendArtifactFix', has('gui_running') ? 1 : 0)
-call s:set('g:DevIconsArtifactFixChar', " ")
+call s:set('g:DevIconsArtifactFixChar', ' ')
 
 " config options {{{1
 "========================================================================
 
 call s:set('g:WebDevIconsUnicodeDecorateFileNodes', 1)
-call s:set('g:WebDevIconsUnicodeDecorateFolderNodes', 0)
+call s:set('g:WebDevIconsUnicodeDecorateFolderNodes', 1)
 call s:set('g:DevIconsEnableFoldersOpenClose', 0)
 call s:set('g:DevIconsEnableFolderPatternMatching', 1)
 call s:set('g:DevIconsEnableFolderExtensionPatternMatching', 0)
@@ -137,10 +137,11 @@ function! s:setDictionaries()
         \ 'css'      : '',
         \ 'less'     : '',
         \ 'md'       : '',
+        \ 'mdx'      : '',
         \ 'markdown' : '',
-        \ 'rmd'      : '',
+        \ 'rmd'      : '',
         \ 'json'     : '',
-        \ 'js'       : '',
+        \ 'js'       : '',
         \ 'jsx'      : '',
         \ 'rb'       : '',
         \ 'php'      : '',
@@ -158,10 +159,10 @@ function! s:setDictionaries()
         \ 'bat'      : '',
         \ 'jpg'      : '',
         \ 'jpeg'     : '',
-        \ 'bmp'      : '',
-        \ 'png'      : '',
+        \ 'bmp'      : '',
+        \ 'png'      : '',
         \ 'gif'      : '',
-        \ 'ico'      : '',
+        \ 'ico'      : '',
         \ 'twig'     : '',
         \ 'cpp'      : '',
         \ 'c++'      : '',
@@ -238,9 +239,9 @@ function! s:setDictionaries()
         \ 'gruntfile.coffee'                 : '',
         \ 'gruntfile.js'                     : '',
         \ 'gruntfile.ls'                     : '',
-        \ 'gulpfile.coffee'                  : '',
-        \ 'gulpfile.js'                      : '',
-        \ 'gulpfile.ls'                      : '',
+        \ 'gulpfile.coffee'                  : '',
+        \ 'gulpfile.js'                      : '',
+        \ 'gulpfile.ls'                      : '',
         \ 'dropbox'                          : '',
         \ 'Jenkinsfile'                      : '',
         \ '.ds_store'                        : '',
@@ -528,7 +529,7 @@ function! AirlineWebDevIcons(...)
   let w:airline_section_x = get(w:, 'airline_section_x',
         \ get(g:, 'airline_section_x', ''))
   let w:airline_section_x .= ' %{WebDevIconsGetFileTypeSymbol()} '
-  let hasFileFormatEncodingPart = airline#parts#ffenc() != ''
+  let hasFileFormatEncodingPart = airline#parts#ffenc() !=? ''
   if g:webdevicons_enable_airline_statusline_fileformat_symbols && hasFileFormatEncodingPart
     let w:airline_section_y = ' %{&fenc . " " . WebDevIconsGetFileFormatSymbol()} '
   endif
@@ -560,13 +561,9 @@ function! NERDTreeWebDevIconsRefreshListener(event)
   let hasGitNerdTreePlugin = (exists('g:loaded_nerdtree_git_status') == 1)
   let artifactFix = s:DevIconsGetArtifactFix()
 
-  if hasGitFlags && g:WebDevIconsUnicodeGlyphDoubleWidth == 1
-    let prePadding .= ' '
-  endif
-
   " align vertically at the same level: non git-flag nodes with git-flag nodes
   if g:WebDevIconsNerdTreeGitPluginForceVAlign && !hasGitFlags && hasGitNerdTreePlugin
-    let prePadding .= '  '
+    let prePadding .= ' '
   endif
 
   if !path.isDirectory
@@ -623,7 +620,7 @@ function! NERDTreeWebDevIconsRefreshListener(event)
     endif
 
   else
-    let flag = ''
+    let flag = prePadding . ' ' . artifactFix . postPadding
   endif
 
   call path.flagSet.clearFlags('webdevicons')
