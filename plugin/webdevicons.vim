@@ -66,12 +66,16 @@ call s:set('g:WebDevIconsUnicodeDecorateFolderNodes', 1)
 call s:set('g:DevIconsEnableFoldersOpenClose', 0)
 call s:set('g:DevIconsEnableFolderPatternMatching', 1)
 call s:set('g:DevIconsEnableFolderExtensionPatternMatching', 0)
+call s:set('g:DevIconsEnableDistro', 1)
 call s:set('g:WebDevIconsUnicodeDecorateFolderNodesExactMatches', 1)
 call s:set('g:WebDevIconsUnicodeGlyphDoubleWidth', 1)
 call s:set('g:WebDevIconsNerdTreeBeforeGlyphPadding', ' ')
 call s:set('g:WebDevIconsNerdTreeAfterGlyphPadding', ' ')
 call s:set('g:WebDevIconsNerdTreeGitPluginForceVAlign', 1)
-call s:set('g:NERDTreeUpdateOnCursorHold', 1)
+call s:set('g:NERDTreeUpdateOnCursorHold', 1) " Obsolete: For backward compatibility
+call s:set('g:NERDTreeGitStatusUpdateOnCursorHold', 1)
+call s:set('g:WebDevIconsTabAirLineBeforeGlyphPadding', ' ')
+call s:set('g:WebDevIconsTabAirLineAfterGlyphPadding', '')
 
 " config defaults {{{1
 "========================================================================
@@ -87,6 +91,36 @@ call s:set('g:DevIconsDefaultFolderOpenSymbol', '')
 
 " local functions {{{2
 "========================================================================
+
+" scope: local
+function s:getDistro()
+  if exists('s:distro')
+    return s:distro
+  endif
+
+  if g:DevIconsEnableDistro && executable('lsb_release')
+    let s:lsb = system('lsb_release -i')
+    if s:lsb =~# 'Arch'
+      let s:distro = ''
+    elseif s:lsb =~# 'Gentoo'
+      let s:distro = ''
+    elseif s:lsb =~# 'Ubuntu'
+      let s:distro = ''
+    elseif s:lsb =~# 'Cent'
+      let s:distro = ''
+    elseif s:lsb =~# 'Debian'
+      let s:distro = ''
+    elseif s:lsb =~# 'Dock'
+      let s:distro = ''
+    else
+      let s:distro = ''
+    endif
+    return s:distro
+  endif
+
+  let s:distro = ''
+  return s:distro
+endfunction
 
 " scope: local
 function s:isDarwin()
@@ -133,18 +167,22 @@ function! s:setDictionaries()
         \ 'htm'      : '',
         \ 'html'     : '',
         \ 'slim'     : '',
+        \ 'haml'     : '',
         \ 'ejs'      : '',
         \ 'css'      : '',
         \ 'less'     : '',
         \ 'md'       : '',
         \ 'mdx'      : '',
-        \ 'markdown' : '',
+        \ 'markdown' : '',
         \ 'rmd'      : '',
         \ 'json'     : '',
+        \ 'webmanifest' : '',
         \ 'js'       : '',
         \ 'mjs'      : '',
         \ 'jsx'      : '',
         \ 'rb'       : '',
+        \ 'gemspec'  : '',
+        \ 'rake'     : '',
         \ 'php'      : '',
         \ 'py'       : '',
         \ 'pyc'      : '',
@@ -163,6 +201,7 @@ function! s:setDictionaries()
         \ 'jpeg'     : '',
         \ 'bmp'      : '',
         \ 'png'      : '',
+        \ 'webp'     : '',
         \ 'gif'      : '',
         \ 'ico'      : '',
         \ 'twig'     : '',
@@ -172,13 +211,14 @@ function! s:setDictionaries()
         \ 'cc'       : '',
         \ 'cp'       : '',
         \ 'c'        : '',
-        \ 'cs'       : '',
+        \ 'cs'       : '',
         \ 'h'        : '',
         \ 'hh'       : '',
         \ 'hpp'      : '',
         \ 'hxx'      : '',
         \ 'hs'       : '',
         \ 'lhs'      : '',
+        \ 'nix'      : '',
         \ 'lua'      : '',
         \ 'java'     : '',
         \ 'sh'       : '',
@@ -236,7 +276,10 @@ function! s:setDictionaries()
         \ 'vue'      : '﵂',
         \ 'elm'      : '',
         \ 'swift'    : '',
-        \ 'xcplayground' : ''
+        \ 'xcplayground' : '',
+        \ 'tex'      : 'ﭨ',
+        \ 'r'        : 'ﳒ',
+        \ 'rproj'    : '鉶'
         \}
 
   let s:file_node_exact_matches = {
@@ -256,6 +299,7 @@ function! s:setDictionaries()
         \ '.bowerrc'                         : '',
         \ '.editorconfig'                    : '',
         \ '.gitignore'                       : '',
+        \ '.gitattributes'                   : '',
         \ '.gitlab-ci.yml'                   : '',
         \ '.bashrc'                          : '',
         \ '.zshrc'                           : '',
@@ -267,11 +311,16 @@ function! s:setDictionaries()
         \ 'favicon.ico'                      : '',
         \ 'license'                          : '',
         \ 'node_modules'                     : '',
-        \ 'react.jsx'                        : '',
+        \ 'react.jsx'                        : '',
         \ 'procfile'                         : '',
         \ 'package.json'                     : '',
         \ 'dockerfile'                       : '',
         \ 'docker-compose.yml'               : '',
+        \ 'rakefile'                         : '',
+        \ 'config.ru'                        : '',
+        \ 'gemfile'                          : '',
+        \ 'makefile'                         : '',
+        \ 'cmakelists.txt'                   : ''
         \}
 
   let s:file_node_pattern_matches = {
@@ -328,8 +377,8 @@ function! s:setSyntax()
   if g:webdevicons_enable_nerdtree == 1 && g:webdevicons_conceal_nerdtree_brackets == 1
     augroup webdevicons_conceal_nerdtree_brackets
       au!
-      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL
-      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
+      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=NERDTreeFlags
+      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=NERDTreeFlags
       autocmd FileType nerdtree setlocal conceallevel=3
       autocmd FileType nerdtree setlocal concealcursor=nvic
     augroup END
@@ -349,7 +398,7 @@ endfunction
 " scope: local
 " stole solution/idea from nerdtree-git-plugin :)
 function! s:CursorHoldUpdate()
-  if g:NERDTreeUpdateOnCursorHold != 1
+  if g:NERDTreeUpdateOnCursorHold != 1 || g:NERDTreeGitStatusUpdateOnCursorHold != 1
     return
   endif
 
@@ -385,7 +434,7 @@ endfunction
 
 " scope: local
 function! s:softRefreshNerdTree()
-  if g:webdevicons_enable_nerdtree == 1 && g:NERDTree.IsOpen()
+  if g:webdevicons_enable_nerdtree == 1 && exists('g:NERDTree') && g:NERDTree.IsOpen()
     NERDTreeToggle
     NERDTreeToggle
   endif
@@ -515,11 +564,7 @@ function! WebDevIconsGetFileFormatSymbol(...)
   if &fileformat ==? 'dos'
     let fileformat = ''
   elseif &fileformat ==? 'unix'
-    if s:isDarwin()
-      let fileformat = ''
-    else
-      let fileformat = ''
-    endif
+    let fileformat = s:isDarwin() ? '' : s:getDistro()
   elseif &fileformat ==? 'mac'
     let fileformat = ''
   endif
@@ -549,11 +594,7 @@ endif
 
 if g:webdevicons_enable == 1 && g:webdevicons_enable_airline_tabline
   " Store original formatter.
-  if exists('g:airline#extensions#tabline#formatter')
-    let g:_webdevicons_airline_orig_formatter = g:airline#extensions#tabline#formatter
-  else
-    let g:_webdevicons_airline_orig_formatter = 'default'
-  endif
+  let g:_webdevicons_airline_orig_formatter = get(g:, 'airline#extensions#tabline#formatter', 'default')
   let g:airline#extensions#tabline#formatter = 'webdevicons'
 endif
 
