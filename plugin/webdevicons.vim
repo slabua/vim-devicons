@@ -98,6 +98,11 @@ function s:getDistro()
     return s:distro
   endif
 
+  if has('bsd')
+    let s:distro = ''
+    return s:distro
+  endif
+
   if g:DevIconsEnableDistro && executable('lsb_release')
     let s:lsb = system('lsb_release -i')
     if s:lsb =~# 'Arch'
@@ -264,7 +269,9 @@ function! s:setDictionaries()
         \ 'exs'      : '',
         \ 'eex'      : '',
         \ 'leex'     : '',
-        \ 'vim'      : '',
+        \ 'heex'     : '',
+        \ 'vi'       : '',
+        \ 'vim'      : '',
         \ 'ai'       : '',
         \ 'psd'      : '',
         \ 'psb'      : '',
@@ -281,7 +288,8 @@ function! s:setDictionaries()
         \ 'tex'      : 'ﭨ',
         \ 'r'        : 'ﳒ',
         \ 'rproj'    : '鉶',
-        \ 'sol'      : 'ﲹ'
+        \ 'sol'      : 'ﲹ',
+        \ 'pem'      : ''
         \}
 
   let s:file_node_exact_matches = {
@@ -324,7 +332,8 @@ function! s:setDictionaries()
         \ 'config.ru'                        : '',
         \ 'gemfile'                          : '',
         \ 'makefile'                         : '',
-        \ 'cmakelists.txt'                   : ''
+        \ 'cmakelists.txt'                   : '',
+        \ 'robots.txt'                       : 'ﮧ'
         \}
 
   let s:file_node_pattern_matches = {
